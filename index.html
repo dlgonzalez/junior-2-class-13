@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junior 2: Class 13 - The Travel Bug</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Nunito', sans-serif; background-color: #f0f9ff; } /* Light sky blue */
+        h1, h2, h3, h4, h5 { font-family: 'Fredoka One', cursive; font-weight: normal; }
+        
+        .card-pop { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .card-pop:hover { transform: translateY(-5px); box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        
+        /* Custom Inputs */
+        .travel-input { border-bottom: 3px solid #38bdf8; transition: border-color 0.2s; background: transparent; width: 100%; outline: none; padding: 4px 0; font-weight: bold; color: #0369a1; }
+        .travel-input:focus { border-color: #0284c7; }
+
+        /* Suitcase Packing Animation */
+        .packed-item { animation: dropIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes dropIn {
+            0% { transform: scale(0) translateY(-20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        /* Dialogue Bubbles */
+        .bubble-left { background: #ffffff; border-radius: 1.5rem 1.5rem 1.5rem 0; padding: 1rem; border: 2px solid #e2e8f0; position: relative; }
+        .bubble-right { background: #e0f2fe; border-radius: 1.5rem 1.5rem 0 1.5rem; padding: 1rem; border: 2px solid #bae6fd; position: relative; }
+    </style>
+</head>
+<body class="p-4 md:p-8 text-gray-800">
+
+    <header class="bg-gradient-to-r from-sky-600 to-blue-800 rounded-3xl p-6 md:p-8 text-white shadow-xl mb-8 max-w-5xl mx-auto border-b-8 border-sky-400 relative overflow-hidden">
+        <div class="absolute top-0 right-0 text-9xl opacity-10 transform translate-x-10 -translate-y-10 pointer-events-none">✈️</div>
+        
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 relative z-10">
+            <div>
+                <h1 class="text-4xl md:text-5xl mb-2 text-transparent bg-clip-text bg-gradient-to-r from-sky-100 to-white drop-shadow-sm">🌍 The Travel Bug!</h1>
+                <p class="text-xl opacity-95 font-semibold text-sky-200">Class 13: Packing, Plans & Predictions</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="bg-white text-sky-900 px-4 py-1.5 rounded-full font-bold shadow-sm text-sm">Junior 2</span>
+                <span class="bg-sky-400 text-sky-900 px-4 py-1.5 rounded-full font-bold shadow-sm text-sm border-2 border-sky-300">Level A2+</span>
+                <span class="bg-blue-900 text-white px-4 py-1.5 rounded-full font-bold shadow-sm text-sm border-2 border-blue-700">Class Time: 2.5h</span>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white/10 p-5 rounded-2xl backdrop-blur-sm border border-white/20 relative z-10 text-gray-100">
+            <div>
+                <h3 class="text-2xl mb-2 flex items-center gap-2 text-sky-300">🗺️ Flight Itinerary</h3>
+                <ul class="list-none space-y-1 font-semibold text-lg">
+                    <li>1️⃣ Vocabulary: Travel Essentials</li>
+                    <li>2️⃣ Reading: Lara's Travel Blog</li>
+                    <li>3️⃣ Grammar: Will vs. Going To</li>
+                    <li>4️⃣ Listening: Grandma's Souvenirs</li>
+                    <li>5️⃣ Speaking: Destination Roulette</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-2xl mb-2 flex items-center gap-2 text-sky-300">🎯 Your Goals</h3>
+                <ul class="list-none space-y-1 font-semibold text-lg">
+                    <li>✓ I can name important items to pack for a trip.</li>
+                    <li>✓ I can use <strong>going to</strong> for travel plans.</li>
+                    <li>✓ I can use <strong>will</strong> for quick decisions & offers.</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto space-y-10">
+
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-t-8 border-yellow-400 card-pop">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-4xl">🌍</span>
+                <h2 class="text-3xl text-yellow-600">Part 1: The Global Travel Dash!</h2>
+            </div>
+            
+            <p class="text-gray-700 text-lg mb-6 font-semibold">Welcome, Travel Agents! You have clients going all over the world. Click a scrambled travel word, then click the correct flight bin to sort it before the plane leaves!</p>
+            
+            <!-- Word Bank -->
+            <div class="bg-gray-50 p-6 rounded-2xl border-2 border-gray-200 mb-8 shadow-inner relative">
+                <h4 class="font-bold text-gray-800 mb-4 text-xl flex justify-between items-center">
+                    <span>🔀 Scrambled Words</span>
+                    <span id="dash-score" class="bg-yellow-400 text-yellow-900 px-4 py-1.5 rounded-full text-sm font-black shadow-sm">Sorted: 0/35</span>
+                </h4>
+                <div class="flex flex-wrap gap-2 min-h-[100px]" id="dash-words">
+                    <!-- Words populated by JS -->
+                </div>
+                <div id="dash-win" class="absolute inset-0 bg-green-500/90 rounded-2xl flex-col items-center justify-center hidden z-10 backdrop-blur-sm transition-all">
+                    <span class="text-6xl mb-2">🎉</span>
+                    <h3 class="text-3xl font-black text-white drop-shadow-md">Boarding Complete!</h3>
+                </div>
+            </div>
+
+            <!-- Sorting Bins -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 text-center cursor-pointer hover:bg-blue-100 hover:border-blue-400 transition-all shadow-sm flex flex-col h-full" onclick="sortWord('pack')">
+                    <span class="text-4xl block mb-2">🧳</span>
+                    <h5 class="font-bold text-blue-800 mb-3 border-b-2 border-blue-200 pb-2">To Pack</h5>
+                    <div id="bin-pack" class="flex flex-col gap-1.5 text-sm font-bold text-blue-700 flex-grow"></div>
+                </div>
+                <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 text-center cursor-pointer hover:bg-red-100 hover:border-red-400 transition-all shadow-sm flex flex-col h-full" onclick="sortWord('transport')">
+                    <span class="text-4xl block mb-2">✈️</span>
+                    <h5 class="font-bold text-red-800 mb-3 border-b-2 border-red-200 pb-2">Transport</h5>
+                    <div id="bin-transport" class="flex flex-col gap-1.5 text-sm font-bold text-red-700 flex-grow"></div>
+                </div>
+                <div class="bg-purple-50 border-2 border-purple-200 rounded-xl p-4 text-center cursor-pointer hover:bg-purple-100 hover:border-purple-400 transition-all shadow-sm flex flex-col h-full" onclick="sortWord('landmark')">
+                    <span class="text-4xl block mb-2">🗽</span>
+                    <h5 class="font-bold text-purple-800 mb-3 border-b-2 border-purple-200 pb-2">Landmarks</h5>
+                    <div id="bin-landmark" class="flex flex-col gap-1.5 text-sm font-bold text-purple-700 flex-grow"></div>
+                </div>
+                <div class="bg-orange-50 border-2 border-orange-200 rounded-xl p-4 text-center cursor-pointer hover:bg-orange-100 hover:border-orange-400 transition-all shadow-sm flex flex-col h-full" onclick="sortWord('activity')">
+                    <span class="text-4xl block mb-2">📸</span>
+                    <h5 class="font-bold text-orange-800 mb-3 border-b-2 border-orange-200 pb-2">Activities</h5>
+                    <div id="bin-activity" class="flex flex-col gap-1.5 text-sm font-bold text-orange-700 flex-grow"></div>
+                </div>
+                <div class="bg-green-50 border-2 border-green-200 rounded-xl p-4 text-center cursor-pointer hover:bg-green-100 hover:border-green-400 transition-all shadow-sm flex flex-col h-full col-span-2 md:col-span-1" onclick="sortWord('custom')">
+                    <span class="text-4xl block mb-2">🤝</span>
+                    <h5 class="font-bold text-green-800 mb-3 border-b-2 border-green-200 pb-2">Customs</h5>
+                    <div id="bin-custom" class="flex flex-col gap-1.5 text-sm font-bold text-green-700 flex-grow"></div>
+                </div>
+            </div>
+
+            <!-- CLT Speaking Game Update -->
+            <div class="mt-10 bg-sky-50 p-6 rounded-2xl border border-sky-200 shadow-inner">
+                <h4 class="text-xl font-bold text-sky-800 mb-2">🗣️ Speak: The Dream Trip Agent</h4>
+                <p class="text-gray-700 font-medium mb-4">Work with a partner. Choose a famous landmark from above. Plan a trip using <strong>going to</strong>. Tell the class your plan!</p>
+                <div class="bg-white p-5 rounded-xl shadow-sm italic text-gray-700 border-l-4 border-yellow-400 font-medium space-y-2">
+                    <p><strong>A:</strong> "We are <strong class="text-purple-600">going to</strong> visit the Eiffel Tower in France!"</p>
+                    <p><strong>B:</strong> "We are <strong class="text-purple-600">going to</strong> travel by bullet train and pack our cameras."</p>
+                    <p><strong>A:</strong> "We are <strong class="text-purple-600">going to</strong> eat local food and buy souvenirs."</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-t-8 border-orange-500 card-pop">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-4xl">📱</span>
+                <h2 class="text-3xl text-orange-600">Part 2: WOW! Travel Blog</h2>
+            </div>
+            
+            <div class="bg-gray-50 p-6 md:p-8 rounded-3xl border border-gray-200 shadow-inner relative max-w-3xl mx-auto">
+                <div class="flex items-center gap-4 border-b-2 border-gray-300 pb-4 mb-4">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-md">L</div>
+                    <div>
+                        <h3 class="text-2xl text-gray-800 font-bold">Lara's Travel Tips ✈️</h3>
+                        <p class="text-gray-500 font-semibold text-sm">Posted 3 minutes ago</p>
+                    </div>
+                </div>
+                
+                <div class="text-lg text-gray-700 space-y-4 font-medium leading-relaxed">
+                    <p>Travelling is fun, but lots of things can go wrong. Read my travel tips and you'll have a good trip!</p>
+                    <p>First, remember the important things like your <strong class="text-orange-600">passport</strong>, ticket, and money. Mum usually takes those for me, but check the date on your passport! Children need a new passport every 5 years, but parents only change theirs every 10 years, so they sometimes forget!</p>
+                    <p>Use a <strong class="text-orange-600">rucksack</strong> (backpack) or a <strong class="text-orange-600">suitcase</strong> on wheels. If you put your name and address on it, you won't lose it. Take shorts and <strong class="text-orange-600">flip-flops</strong> for sunny days 😎. Take a <strong class="text-orange-600">raincoat</strong> or an <strong class="text-orange-600">umbrella</strong> for rainy days.</p>
+                    <p>Take a <strong class="text-orange-600">washbag</strong> with your <strong class="text-orange-600">toothbrush</strong>, toothpaste, shampoo and soap. And don't forget <strong class="text-orange-600">medicines</strong> if you need them!</p>
+                    <p>Don't take heavy guidebooks; you can download apps about the places you're going to visit. But remember to take a <strong class="text-orange-600">charger</strong> for your phone! If you're travelling at night, take a <strong class="text-orange-600">pillow</strong> so you can sleep. Have a good trip! 😊</p>
+                </div>
+
+                <!-- Comprehension Check -->
+                <div class="mt-8 bg-white p-6 rounded-2xl shadow-md border border-orange-100">
+                    <h4 class="text-xl font-bold text-orange-600 mb-4">📝 Reading Check</h4>
+                    <div class="space-y-4">
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-3">
+                            <span class="font-bold text-gray-700 md:w-64">1. How often do children need a new passport?</span>
+                            <div class="flex-grow w-full">
+                                <input type="text" class="travel-input w-full" placeholder="Type answer...">
+                                <p class="hidden read-ans text-green-600 font-bold text-sm bg-green-50 px-3 py-1 rounded mt-2 border border-green-200">✅ Answer: Every 5 years.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-3">
+                            <span class="font-bold text-gray-700 md:w-64">2. Why shouldn't you take guidebooks?</span>
+                            <div class="flex-grow w-full">
+                                <input type="text" class="travel-input w-full" placeholder="Type answer...">
+                                <p class="hidden read-ans text-green-600 font-bold text-sm bg-green-50 px-3 py-1 rounded mt-2 border border-green-200">✅ Answer: They are heavy (you can download apps).</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-3">
+                            <span class="font-bold text-gray-700 md:w-64">3. What do you need if you travel at night?</span>
+                            <div class="flex-grow w-full">
+                                <input type="text" class="travel-input w-full" placeholder="Type answer...">
+                                <p class="hidden read-ans text-green-600 font-bold text-sm bg-green-50 px-3 py-1 rounded mt-2 border border-green-200">✅ Answer: A pillow so you can sleep.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="document.querySelectorAll('.read-ans').forEach(el => el.classList.remove('hidden'))" class="mt-6 bg-orange-500 text-white px-6 py-2 rounded-xl font-bold hover:bg-orange-600 transition-colors shadow-md w-full md:w-auto">Check Answers 🔍</button>
+                </div>
+            </div>
+
+            <!-- New Speaking Project: Do's and Don'ts -->
+            <div class="mt-10 bg-gradient-to-br from-yellow-50 to-orange-50 p-6 md:p-8 rounded-3xl border-2 border-orange-200 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-9xl opacity-10 pointer-events-none">🎨</div>
+                <h4 class="text-2xl font-black text-orange-700 mb-3 flex items-center gap-2"><span>🎨</span> Group Project: Travel Do's & Don'ts!</h4>
+                <p class="text-gray-700 font-medium mb-6 text-lg">Work in groups of 3. Grab some paper and markers! Design a <strong>"Travel Survival Guide"</strong> poster with 3 <strong class="text-green-600">Do's</strong> (Good ideas) and 3 <strong class="text-red-600">Don'ts</strong> (Bad ideas). Present it to the class!</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-white p-5 rounded-2xl border-l-8 border-green-500 shadow-sm">
+                        <h5 class="font-bold text-green-700 text-lg mb-3 border-b border-green-100 pb-2">✅ DO (Good Ideas)</h5>
+                        <ul class="text-gray-600 font-bold space-y-3">
+                            <li class="flex gap-2"><span>👉</span> "Do check your passport date."</li>
+                            <li class="flex gap-2"><span>👉</span> "Do take a charger."</li>
+                            <li class="flex gap-2"><span>👉</span> "Do try the local food!"</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border-l-8 border-red-500 shadow-sm">
+                        <h5 class="font-bold text-red-700 text-lg mb-3 border-b border-red-100 pb-2">❌ DON'T (Bad Ideas)</h5>
+                        <ul class="text-gray-600 font-bold space-y-3">
+                            <li class="flex gap-2"><span>👉</span> "Don't take heavy guidebooks."</li>
+                            <li class="flex gap-2"><span>👉</span> "Don't forget your medicine."</li>
+                            <li class="flex gap-2"><span>👉</span> "Don't lose your ticket."</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-white/60 p-5 rounded-xl border border-orange-300 shadow-inner">
+                    <p class="font-black text-orange-800 mb-2 flex items-center gap-2"><span>💡</span> Presentation Tips:</p>
+                    <p class="text-base text-gray-700 font-medium">Make it colorful! Everyone in the group should speak. Stand tall, smile, and show your poster to the class.<br><br> <em class="text-indigo-700 bg-white px-2 py-1 rounded">"Hello everyone! Here are our travel tips. First, you should DO..."</em></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-3xl p-6 md:p-8 shadow-xl text-white relative overflow-hidden">
+            <div class="absolute -top-20 -left-20 w-64 h-64 bg-purple-500 opacity-20 rounded-full blur-3xl"></div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="text-4xl">🧠</span>
+                    <h2 class="text-3xl font-bold text-white">Part 3: The Future Crossroads</h2>
+                </div>
+
+                <!-- Grammar Graphic -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                    
+                    <!-- GOING TO Box -->
+                    <div class="bg-white text-gray-800 rounded-3xl p-6 md:p-8 shadow-lg border-b-8 border-purple-500 transform hover:scale-105 transition-transform flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl bg-purple-100 p-3 rounded-2xl shadow-inner">📝</span>
+                            <h3 class="text-3xl font-black text-purple-700 uppercase tracking-wide">Going To</h3>
+                        </div>
+                        <p class="text-xl font-bold bg-purple-100 text-purple-800 p-2 rounded-lg mb-4 text-center">"The Planner"</p>
+                        <p class="text-gray-600 font-semibold mb-6 text-lg flex-grow">Use this when you have <strong>already decided</strong> to do something before speaking. It's a plan in your head!</p>
+                        <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200 italic shadow-sm">
+                            <p class="text-purple-600 font-bold mb-2">✓ "I'm going to visit Madrid."</p>
+                            <p class="text-purple-600 font-bold">✓ "We're going to travel in July."</p>
+                        </div>
+                    </div>
+
+                    <!-- WILL Box -->
+                    <div class="bg-white text-gray-800 rounded-3xl p-6 md:p-8 shadow-lg border-b-8 border-green-500 transform hover:scale-105 transition-transform flex flex-col h-full">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-4xl bg-green-100 p-3 rounded-2xl shadow-inner">💡</span>
+                            <h3 class="text-3xl font-black text-green-700 uppercase tracking-wide">Will ('ll)</h3>
+                        </div>
+                        <p class="text-xl font-bold bg-green-100 text-green-800 p-2 rounded-lg mb-4 text-center">"The Hero"</p>
+                        <p class="text-gray-600 font-semibold mb-6 text-lg flex-grow">Use this when you decide <strong>right now</strong> at the time of speaking. Great for offers, promises & quick ideas.</p>
+                        <div class="bg-gray-50 p-4 rounded-xl border-2 border-gray-200 italic shadow-sm">
+                            <p class="text-gray-500 text-sm mb-1 font-bold">A: "I don't have an umbrella."</p>
+                            <p class="text-green-600 font-bold">B: "Don't worry, I'll take one!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Competitive Interactive Game -->
+                <div class="bg-white/10 p-6 md:p-8 rounded-3xl border border-white/20 backdrop-blur-sm shadow-xl">
+                    <h3 class="text-3xl font-bold text-yellow-300 mb-6 text-center">🏆 The Future Face-Off!</h3>
+                    <p class="text-center text-indigo-100 mb-6 font-medium text-lg">Divide the class into Team A and Team B. Take turns answering! Is it a <strong class="text-purple-300">Plan</strong> or a <strong class="text-green-300">Quick Decision</strong>?</p>
+                    
+                    <!-- Scoreboard -->
+                    <div class="flex justify-center gap-6 md:gap-12 mb-8">
+                        <div class="bg-red-500/20 border-2 border-red-400 p-4 rounded-2xl text-center w-32 md:w-40">
+                            <p class="text-red-200 font-bold uppercase text-sm mb-1">Team A</p>
+                            <p id="score-a" class="text-5xl font-black text-white">0</p>
+                            <div class="flex justify-center gap-2 mt-3">
+                                <button onclick="changeScore('A', -1)" class="bg-red-500/50 hover:bg-red-500 px-3 py-1 rounded font-bold text-sm transition-colors">-1</button>
+                                <button onclick="changeScore('A', 1)" class="bg-red-600 hover:bg-red-500 px-3 py-1 rounded font-bold text-sm shadow-md transition-colors">+1</button>
+                            </div>
+                        </div>
+                        <div class="bg-blue-500/20 border-2 border-blue-400 p-4 rounded-2xl text-center w-32 md:w-40">
+                            <p class="text-blue-200 font-bold uppercase text-sm mb-1">Team B</p>
+                            <p id="score-b" class="text-5xl font-black text-white">0</p>
+                            <div class="flex justify-center gap-2 mt-3">
+                                <button onclick="changeScore('B', -1)" class="bg-blue-500/50 hover:bg-blue-500 px-3 py-1 rounded font-bold text-sm transition-colors">-1</button>
+                                <button onclick="changeScore('B', 1)" class="bg-blue-600 hover:bg-blue-500 px-3 py-1 rounded font-bold text-sm shadow-md transition-colors">+1</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Screen -->
+                    <div class="bg-white p-6 md:p-10 rounded-2xl text-center shadow-2xl max-w-3xl mx-auto border-4 border-gray-200">
+                        <div class="mb-8 min-h-[100px] flex flex-col justify-center">
+                            <p id="faceoff-speaker-a" class="text-gray-500 italic font-bold text-lg md:text-xl mb-2">A: "The phone is ringing!"</p>
+                            <p id="faceoff-speaker-b" class="text-2xl md:text-3xl font-black text-gray-800">B: "I ______ answer it!"</p>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row gap-4 justify-center relative">
+                            <button onclick="checkFaceOff('will')" class="faceoff-btn flex-1 bg-green-50 hover:bg-green-100 text-green-800 border-2 border-green-500 px-6 py-4 rounded-2xl font-black text-xl transition-all hover:scale-105 active:scale-95 shadow-sm">WILL ('ll) 💡</button>
+                            <button onclick="checkFaceOff('going')" class="faceoff-btn flex-1 bg-purple-50 hover:bg-purple-100 text-purple-800 border-2 border-purple-500 px-6 py-4 rounded-2xl font-black text-xl transition-all hover:scale-105 active:scale-95 shadow-sm">GOING TO 📝</button>
+                            
+                            <!-- Win/Lose Overlay -->
+                            <div id="faceoff-feedback" class="absolute inset-0 flex items-center justify-center rounded-2xl hidden z-10 backdrop-blur-sm">
+                                <span id="faceoff-msg" class="text-4xl font-black text-white drop-shadow-md px-8 py-3 rounded-full">Correct!</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-between items-center px-4">
+                            <span id="faceoff-tracker" class="font-bold text-gray-400">Round 1/8</span>
+                            <button onclick="nextFaceOff()" class="text-indigo-600 font-black uppercase tracking-wide hover:text-indigo-800 transition-colors bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-200 shadow-sm">Next Scenario ⏭️</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-t-8 border-sky-500 card-pop">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-4xl">💬</span>
+                <h2 class="text-3xl text-sky-600">Part 4: Grammar in Context</h2>
+            </div>
+            
+            <p class="text-gray-700 text-lg mb-6 font-semibold">Now let's see the rules in action! Lara and Ting are packing for their trip. Notice the future words in <strong class="text-purple-600">purple (Plans)</strong> and <strong class="text-green-600">green (Decisions)</strong>.</p>
+            
+            <!-- Dialogue Window -->
+            <div class="bg-sky-50 p-4 md:p-6 rounded-2xl border border-sky-100 max-h-[400px] overflow-y-auto space-y-4 mb-8 custom-scrollbar">
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>Are you ready for our trip, Ting?</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">T</div>
+                    <div class="bubble-right text-right">
+                        <p class="font-bold text-blue-800 text-sm mb-1">Ting</p>
+                        <p>Of course!</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>I<strong class="text-purple-600">'m going to</strong> take a small rucksack with my camera, my wallet...</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">T</div>
+                    <div class="bubble-right text-right">
+                        <p class="font-bold text-blue-800 text-sm mb-1">Ting</p>
+                        <p>Good idea. I<strong class="text-green-600">'ll</strong> take a small bag, too.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>Then, in my suitcase I<strong class="text-purple-600">'m going to</strong> take sweatshirts and a raincoat...</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">T</div>
+                    <div class="bubble-right text-right">
+                        <p class="font-bold text-blue-800 text-sm mb-1">Ting</p>
+                        <p>Er... I<strong class="text-green-600">'ll</strong> take the same clothes as you. Are you <strong class="text-purple-600">going to</strong> take an umbrella?</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>No. I don't have one.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">T</div>
+                    <div class="bubble-right text-right border-green-400 bg-green-50 shadow-md">
+                        <p class="font-bold text-green-800 text-sm mb-1">Ting</p>
+                        <p>Don't worry. I<strong class="text-green-600">'ll</strong> take one. We can share it.</p>
+                        <span class="text-xs text-green-700 font-bold uppercase mt-2 inline-block bg-green-200 px-2 py-1 rounded">Quick Decision / Offer!</span>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>OK. What do I need to bring in my washbag?</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">T</div>
+                    <div class="bubble-right text-right">
+                        <p class="font-bold text-blue-800 text-sm mb-1">Ting</p>
+                        <p>Bring your toothbrush. I<strong class="text-green-600">'ll</strong> bring toothpaste, soap and shampoo.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>Good plan! Ting, do you know where we<strong class="text-purple-600">'re going</strong>?</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 flex-row-reverse">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">T</div>
+                    <div class="bubble-right text-right border-purple-400 bg-purple-50 shadow-md">
+                        <p class="font-bold text-purple-800 text-sm mb-1">Ting</p>
+                        <p>Yes! We<strong class="text-purple-600">'re going to</strong> visit Madrid.</p>
+                        <span class="text-xs text-purple-700 font-bold uppercase mt-2 inline-block bg-purple-200 px-2 py-1 rounded">A Firm Plan!</span>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-bold text-xl shrink-0 shadow-sm">L</div>
+                    <div class="bubble-left">
+                        <p class="font-bold text-orange-800 text-sm mb-1">Lara</p>
+                        <p>That's right. I<strong class="text-green-600">'ll</strong> download a guidebook about the city now.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dialogue Quick Check -->
+            <div class="text-center bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-inner">
+                <p class="text-xl font-bold text-sky-800 mb-4">Quick Check! Who said it?</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4 flex-wrap">
+                    <button class="bg-white hover:bg-sky-100 text-gray-700 px-6 py-3 rounded-xl font-bold border-2 border-gray-300 transition-colors shadow-sm w-full md:w-auto" onclick="this.innerText='✅ Lara! (Planned)'; this.classList.add('bg-sky-100', 'text-sky-800', 'border-sky-400');">Who is going to take a rucksack?</button>
+                    <button class="bg-white hover:bg-sky-100 text-gray-700 px-6 py-3 rounded-xl font-bold border-2 border-gray-300 transition-colors shadow-sm w-full md:w-auto" onclick="this.innerText='✅ Ting! (She offered)'; this.classList.add('bg-sky-100', 'text-sky-800', 'border-sky-400');">Who will bring toothpaste?</button>
+                    <button class="bg-white hover:bg-sky-100 text-gray-700 px-6 py-3 rounded-xl font-bold border-2 border-gray-300 transition-colors shadow-sm w-full md:w-auto" onclick="this.innerText='✅ Madrid! (Planned)'; this.classList.add('bg-sky-100', 'text-sky-800', 'border-sky-400');">Where are they going to go?</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-t-8 border-pink-500 card-pop">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="text-4xl">🎙️</span>
+                <h2 class="text-3xl text-pink-600">Part 5: Listening & Speaking</h2>
+            </div>
+            
+            <!-- Listening -->
+            <div class="bg-pink-50 p-6 rounded-2xl border border-pink-200 mb-8 shadow-inner">
+                <h3 class="text-2xl font-bold text-pink-800 mb-2">Grandma's Souvenirs</h3>
+                <p class="text-gray-700 font-medium mb-4"><em>Teacher reads the script. Students match the object to where Grandma bought it!</em></p>
+                
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-pink-100 mb-6 text-sm text-gray-600 italic font-medium leading-relaxed">
+                    <p><strong class="text-pink-600">Teacher Script:</strong> "Grandma travels a lot! She bought this heavy leather <strong>suitcase</strong> in a beautiful <strong>shop</strong> in London. She found a strange <strong>musical instrument</strong> made of wood at a colorful <strong>market stall</strong> in Mexico. She bought these cute pink <strong>flip-flops</strong> on a huge <strong>cruise ship</strong>. And finally, she bought a cool <strong>guidebook</strong> at the <strong>souvenir shop</strong> at the museum!"</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-xl border-2 border-gray-200 text-center shadow-sm">
+                        <span class="text-4xl block mb-3">🧳</span>
+                        <p class="font-bold text-gray-700 mb-2">Suitcase</p>
+                        <select class="w-full bg-gray-50 p-2 rounded-lg font-bold outline-none text-pink-700 border border-gray-300">
+                            <option>Where from?</option><option>Cruise Ship</option><option>Market Stall</option><option>Shop</option><option>Souvenir Shop</option>
+                        </select>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border-2 border-gray-200 text-center shadow-sm">
+                        <span class="text-4xl block mb-3">🎸</span>
+                        <p class="font-bold text-gray-700 mb-2">Instrument</p>
+                        <select class="w-full bg-gray-50 p-2 rounded-lg font-bold outline-none text-pink-700 border border-gray-300">
+                            <option>Where from?</option><option>Cruise Ship</option><option>Market Stall</option><option>Shop</option><option>Souvenir Shop</option>
+                        </select>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border-2 border-gray-200 text-center shadow-sm">
+                        <span class="text-4xl block mb-3">🩴</span>
+                        <p class="font-bold text-gray-700 mb-2">Flip-flops</p>
+                        <select class="w-full bg-gray-50 p-2 rounded-lg font-bold outline-none text-pink-700 border border-gray-300">
+                            <option>Where from?</option><option>Cruise Ship</option><option>Market Stall</option><option>Shop</option><option>Souvenir Shop</option>
+                        </select>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border-2 border-gray-200 text-center shadow-sm">
+                        <span class="text-4xl block mb-3">📘</span>
+                        <p class="font-bold text-gray-700 mb-2">Guidebook</p>
+                        <select class="w-full bg-gray-50 p-2 rounded-lg font-bold outline-none text-pink-700 border border-gray-300">
+                            <option>Where from?</option><option>Cruise Ship</option><option>Market Stall</option><option>Shop</option><option>Souvenir Shop</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Speaking Project: Destination Roulette Upgrade -->
+            <div class="bg-gray-900 p-8 rounded-3xl text-center shadow-2xl border-4 border-yellow-400 relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] pointer-events-none"></div>
+                
+                <h3 class="text-4xl font-bold text-yellow-300 mb-3 relative z-10">🎰 Destination Roulette</h3>
+                <p class="text-gray-300 font-medium mb-8 relative z-10 text-lg">Click spin to get a random destination and weather! Work with your partner to build a conversation.</p>
+                
+                <div class="bg-white rounded-3xl p-8 max-w-xl mx-auto shadow-2xl relative z-10 border-4 border-gray-200">
+                    <p class="text-gray-500 font-bold mb-2 uppercase tracking-wide text-sm">You are going to...</p>
+                    <h4 id="roulette-dest" class="text-4xl md:text-5xl font-black text-sky-600 mb-3 font-['Fredoka_One'] drop-shadow-sm h-14">???</h4>
+                    <p id="roulette-weather" class="text-2xl font-bold text-orange-500 mb-8 h-8">Click spin to find out!</p>
+                    
+                    <button onclick="spinRoulette()" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-10 py-5 rounded-full font-black text-2xl shadow-xl hover:scale-105 active:scale-95 transition-all w-full uppercase tracking-wider border-b-4 border-orange-600">Spin the Wheel!</button>
+                </div>
+
+                <!-- Upgraded Conversation Guide -->
+                <div class="mt-10 text-left max-w-2xl mx-auto bg-gray-800 p-6 md:p-8 rounded-2xl border border-gray-700 relative z-10 shadow-inner">
+                    <h5 class="text-yellow-400 font-bold text-2xl mb-2 flex items-center gap-2"><span>🗣️</span> Conversation Guide</h5>
+                    <p class="text-gray-300 mb-6 font-medium text-sm">💡 <strong>Tips for a great chat:</strong> Use reactions like <em>"Wow!", "Oh no!", "Cool!"</em>. Look at your partner, smile, and use big gestures!</p>
+                    
+                    <div class="space-y-5 text-white font-medium text-lg bg-gray-900 p-5 md:p-6 rounded-xl border border-gray-600">
+                        <div class="flex gap-4 items-start">
+                            <span class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold shrink-0 mt-1 shadow">A</span>
+                            <div>
+                                <span class="text-xs text-blue-300 uppercase font-bold tracking-wider block mb-1">Make the Plan</span>
+                                <p>"I spun the wheel! We <strong class="text-purple-400">are going to</strong> travel to <span class="text-yellow-300 border-b border-yellow-300 border-dashed">[Destination]</span>!"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 items-start">
+                            <span class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center font-bold shrink-0 mt-1 shadow">B</span>
+                            <div>
+                                <span class="text-xs text-orange-300 uppercase font-bold tracking-wider block mb-1">React & Plan</span>
+                                <p>"Wow, cool! I <strong class="text-purple-400">am going to</strong> pack a <span class="text-yellow-300 border-b border-yellow-300 border-dashed">[Item]</span>."</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <span class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold shrink-0 mt-1 shadow">A</span>
+                            <div>
+                                <span class="text-xs text-blue-300 uppercase font-bold tracking-wider block mb-1">Check Weather</span>
+                                <p>"Wait, look! The weather is <span class="text-yellow-300 border-b border-yellow-300 border-dashed">[Weather]</span>!"</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 items-start">
+                            <span class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center font-bold shrink-0 mt-1 shadow">B</span>
+                            <div>
+                                <span class="text-xs text-orange-300 uppercase font-bold tracking-wider block mb-1">Quick Decision!</span>
+                                <p>"Oh no! Then I <strong class="text-green-400">will</strong> pack a <span class="text-yellow-300 border-b border-yellow-300 border-dashed">[Different Item]</span>!"</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4 items-start">
+                            <span class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold shrink-0 mt-1 shadow">A</span>
+                            <div>
+                                <span class="text-xs text-blue-300 uppercase font-bold tracking-wider block mb-1">Offer Help</span>
+                                <p>"Good idea! And I <strong class="text-green-400">will</strong> buy us some <span class="text-yellow-300 border-b border-yellow-300 border-dashed">[Food/Drink]</span> when we arrive."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center pb-12 mt-10">
+            <div class="inline-block bg-white px-10 py-8 rounded-3xl shadow-xl border-4 border-sky-400 max-w-2xl mx-auto card-pop">
+                <h3 class="text-3xl text-sky-600 mb-4 font-bold">🚪 Exit Ticket</h3>
+                <p class="text-xl font-bold text-gray-700 mb-2">Before you leave, tell the teacher:</p>
+                <div class="bg-sky-50 p-5 rounded-2xl border border-sky-200 mt-4 shadow-inner">
+                    <p class="text-2xl font-bold text-blue-800">"Where are you going to go after class, and what will you do?"</p>
+                    <p class="text-sm text-gray-500 mt-3 italic bg-white p-3 rounded-xl inline-block shadow-sm border border-gray-200 font-medium">Example: "I am going to go home. I'll watch TV!"</p>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- 1. GLOBAL TRAVEL DASH LOGIC ---
+        const travelWords = [
+            { word: 'Passport', cat: 'pack' }, { word: 'Charger', cat: 'pack' }, { word: 'Flip-flops', cat: 'pack' }, { word: 'Guidebook', cat: 'pack' },
+            { word: 'Sunscreen', cat: 'pack' }, { word: 'Sunglasses', cat: 'pack' }, { word: 'First Aid Kit', cat: 'pack' }, { word: 'Toothbrush', cat: 'pack' },
+            { word: 'Airplane', cat: 'transport' }, { word: 'Bullet Train', cat: 'transport' }, { word: 'Cruise Ship', cat: 'transport' }, { word: 'Hot Air Balloon', cat: 'transport' },
+            { word: 'Helicopter', cat: 'transport' }, { word: 'Subway', cat: 'transport' }, { word: 'Ferry', cat: 'transport' },
+            { word: 'Eiffel Tower', cat: 'landmark' }, { word: 'Pyramids', cat: 'landmark' }, { word: 'Machu Picchu', cat: 'landmark' }, { word: 'Taj Mahal', cat: 'landmark' },
+            { word: 'Great Wall', cat: 'landmark' }, { word: 'Colosseum', cat: 'landmark' }, { word: 'Statue of Liberty', cat: 'landmark' },
+            { word: 'Scuba Diving', cat: 'activity' }, { word: 'Sightseeing', cat: 'activity' }, { word: 'Hiking', cat: 'activity' }, { word: 'Buy Souvenirs', cat: 'activity' },
+            { word: 'Visit Museums', cat: 'activity' }, { word: 'Go Surfing', cat: 'activity' }, { word: 'Skiing', cat: 'activity' },
+            { word: 'Bowing', cat: 'custom' }, { word: 'Try Local Food', cat: 'custom' }, { word: 'Leave a Tip', cat: 'custom' }, { word: 'Take off Shoes', cat: 'custom' },
+            { word: 'Eat with Chopsticks', cat: 'custom' }, { word: 'Kiss on the Cheek', cat: 'custom' }
+        ];
+        
+        let selectedWordObj = null;
+        let selectedWordEl = null;
+        let sortedCount = 0;
+        const totalWords = travelWords.length;
+
+        function initDash() {
+            const bank = document.getElementById('dash-words');
+            if(!bank) return;
+            bank.innerHTML = '';
+            
+            // Shuffle array
+            const shuffled = [...travelWords].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(item => {
+                const span = document.createElement('span');
+                span.className = 'bg-white px-4 py-2 rounded-xl border-2 border-gray-300 shadow-sm font-bold text-gray-700 hover:bg-yellow-50 hover:border-yellow-400 cursor-pointer transition-all active:scale-95 select-none';
+                span.innerText = item.word;
+                
+                span.onclick = () => {
+                    // Deselect previous
+                    if (selectedWordEl) {
+                        selectedWordEl.classList.remove('ring-4', 'ring-yellow-400', 'bg-yellow-100');
+                    }
+                    // Select new
+                    selectedWordObj = item;
+                    selectedWordEl = span;
+                    span.classList.add('ring-4', 'ring-yellow-400', 'bg-yellow-100');
+                };
+                
+                bank.appendChild(span);
+            });
+        }
+
+        function sortWord(targetCat) {
+            if (!selectedWordObj || !selectedWordEl) return; // Nothing selected
+
+            if (selectedWordObj.cat === targetCat) {
+                // Correct match!
+                const bin = document.getElementById(`bin-${targetCat}`);
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'bg-white px-2 py-1 rounded shadow-sm border border-gray-200 animate-pulse';
+                wordSpan.innerText = selectedWordObj.word;
+                bin.appendChild(wordSpan);
+                
+                // Stop pulse after a moment
+                setTimeout(() => wordSpan.classList.remove('animate-pulse'), 500);
+
+                // Remove from bank and reset selection
+                selectedWordEl.remove();
+                selectedWordObj = null;
+                selectedWordEl = null;
+                
+                // Update score
+                sortedCount++;
+                document.getElementById('dash-score').innerText = `Sorted: ${sortedCount}/${totalWords}`;
+                
+                if (sortedCount === totalWords) {
+                    const winScreen = document.getElementById('dash-win');
+                    winScreen.classList.remove('hidden');
+                    winScreen.classList.add('flex');
+                }
+            } else {
+                // Wrong match (Visual Shake Error)
+                const binContainer = document.getElementById(`bin-${targetCat}`).parentElement;
+                binContainer.classList.add('ring-4', 'ring-red-400', 'bg-red-100', 'transform', 'translate-x-2');
+                setTimeout(() => {
+                    binContainer.classList.remove('ring-4', 'ring-red-400', 'bg-red-100', 'transform', 'translate-x-2');
+                }, 200);
+            }
+        }
+
+        // --- 2. THE FUTURE FACE-OFF GAME LOGIC ---
+        const faceOffScenarios = [
+            { a: "The phone is ringing!", b: "I ______ answer it!", ans: "will" },
+            { a: "Why are you packing a bag?", b: "Because I ______ travel to Spain.", ans: "going" },
+            { a: "Oh no! I forgot my passport!", b: "Don't worry, I ______ drive you home to get it.", ans: "will" },
+            { a: "Are you free this weekend?", b: "No, we ______ visit my grandma.", ans: "going" },
+            { a: "This suitcase is too heavy.", b: "I ______ help you carry it.", ans: "will" },
+            { a: "What are your summer plans?", b: "We ______ relax on the beach in Mexico.", ans: "going" },
+            { a: "I am so thirsty.", b: "I ______ buy you a bottle of water.", ans: "will" },
+            { a: "Did you buy the tickets?", b: "Yes, we ______ leave on Friday.", ans: "going" }
+        ];
+        
+        let faceOffIdx = 0;
+        let scoreA = 0;
+        let scoreB = 0;
+        let faceOffLocked = false;
+
+        function loadFaceOff() {
+            if (faceOffIdx >= faceOffScenarios.length) {
+                document.getElementById('faceoff-speaker-a').innerText = "Game Over!";
+                document.getElementById('faceoff-speaker-b').innerText = scoreA > scoreB ? "Team A Wins! 🎉" : (scoreB > scoreA ? "Team B Wins! 🎉" : "It's a Tie! 🤝");
+                document.querySelectorAll('.faceoff-btn').forEach(btn => btn.style.display = 'none');
+                document.getElementById('faceoff-tracker').innerText = "Finished";
+                return;
+            }
+            
+            const scenario = faceOffScenarios[faceOffIdx];
+            document.getElementById('faceoff-speaker-a').innerText = `A: "${scenario.a}"`;
+            document.getElementById('faceoff-speaker-b').innerText = `B: "${scenario.b}"`;
+            document.getElementById('faceoff-tracker').innerText = `Round ${faceOffIdx + 1}/${faceOffScenarios.length}`;
+            
+            // Reset buttons and overlay
+            faceOffLocked = false;
+            document.getElementById('faceoff-feedback').classList.add('hidden');
+            const btns = document.querySelectorAll('.faceoff-btn');
+            btns.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-50');
+            });
+        }
+
+        function checkFaceOff(selectedAns) {
+            if (faceOffLocked) return;
+            faceOffLocked = true;
+            
+            const scenario = faceOffScenarios[faceOffIdx];
+            const isCorrect = selectedAns === scenario.ans;
+            
+            const feedbackOverlay = document.getElementById('faceoff-feedback');
+            const msgSpan = document.getElementById('faceoff-msg');
+            
+            // Disable buttons
+            document.querySelectorAll('.faceoff-btn').forEach(btn => btn.classList.add('opacity-50'));
+            
+            feedbackOverlay.classList.remove('hidden', 'bg-green-500/90', 'bg-red-500/90');
+            
+            if (isCorrect) {
+                feedbackOverlay.classList.add('bg-green-500/90');
+                msgSpan.innerText = "Correct! +1 Point! 🎉";
+            } else {
+                feedbackOverlay.classList.add('bg-red-500/90');
+                msgSpan.innerText = "Wrong! Oh no! ❌";
+            }
+        }
+
+        function nextFaceOff() {
+            if (faceOffIdx < faceOffScenarios.length) {
+                faceOffIdx++;
+                loadFaceOff();
+            }
+        }
+
+        function changeScore(team, amount) {
+            if (team === 'A') {
+                scoreA += amount;
+                if(scoreA < 0) scoreA = 0;
+                document.getElementById('score-a').innerText = scoreA;
+            } else {
+                scoreB += amount;
+                if(scoreB < 0) scoreB = 0;
+                document.getElementById('score-b').innerText = scoreB;
+            }
+        }
+
+        // --- 3. DESTINATION ROULETTE LOGIC ---
+        const destinations = [
+            "Tokyo, Japan 🇯🇵", "Paris, France 🇫🇷", "Sydney, Australia 🇦🇺", 
+            "Cairo, Egypt 🇪🇬", "New York, USA 🇺🇸", "Rio, Brazil 🇧🇷", 
+            "London, UK 🇬🇧", "Rome, Italy 🇮🇹", "Cancun, Mexico 🇲🇽"
+        ];
+        const weathers = [
+            "Sunny & Hot ☀️", "Rainy & Cold 🌧️", "Snowing ❄️", 
+            "Windy & Cool 🌬️", "Stormy 🌩️", "Cloudy & Warm ☁️"
+        ];
+        let isSpinning = false;
+
+        function spinRoulette() {
+            if(isSpinning) return;
+            isSpinning = true;
+            
+            const destEl = document.getElementById('roulette-dest');
+            const weathEl = document.getElementById('roulette-weather');
+            
+            let spins = 0;
+            const maxSpins = 20; // Increase for longer spin
+            
+            // Add spinning effect classes
+            destEl.classList.add('text-gray-300', 'blur-[1px]');
+            weathEl.classList.add('text-gray-400');
+            
+            const interval = setInterval(() => {
+                destEl.innerText = destinations[Math.floor(Math.random() * destinations.length)];
+                weathEl.innerText = weathers[Math.floor(Math.random() * weathers.length)];
+                spins++;
+                
+                if (spins > maxSpins) {
+                    clearInterval(interval);
+                    isSpinning = false;
+                    
+                    // Final reveal styling
+                    destEl.classList.remove('text-gray-300', 'blur-[1px]');
+                    weathEl.classList.remove('text-gray-400');
+                    
+                    destEl.classList.add('text-yellow-400', 'scale-110');
+                    weathEl.classList.add('text-yellow-300', 'scale-110');
+                    
+                    // Reset styling after a moment
+                    setTimeout(() => {
+                        destEl.classList.remove('scale-110', 'text-yellow-400');
+                        weathEl.classList.remove('scale-110', 'text-yellow-300');
+                    }, 500);
+                }
+            }, 80); // Speed of the spin
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            initDash();
+            loadFaceOff();
+        };
+    </script>
+</body>
+</html>
